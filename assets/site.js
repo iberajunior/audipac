@@ -5,7 +5,11 @@
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
   /* Cabeçalho: transparente sobre o topo escuro, branco depois da rolagem */
-  const onScroll = () => document.body.classList.toggle('scrolled', scrollY > 40);
+  const toTop = $('#toTop');
+  const onScroll = () => { document.body.classList.toggle('scrolled', scrollY > 40); if (toTop) toTop.classList.toggle('show', scrollY > 600); };
+  const goTop = () => scrollTo({top: 0, behavior: reduce ? 'auto' : 'smooth'});
+  if (toTop) toTop.addEventListener('click', goTop);
+  $$('[data-top]').forEach(x => x.addEventListener('click', goTop));
   addEventListener('scroll', onScroll, {passive: true});
 
   /* Item do menu ativo conforme a página */
